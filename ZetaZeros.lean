@@ -1,0 +1,28 @@
+module  -- shake: keep-all --deprecated_module: ignore
+
+public import ZetaZeros.Defs
+public import ZetaZeros.Hilbert.AlphaExpansion
+public import ZetaZeros.Hilbert.Basis
+public import ZetaZeros.Hilbert.Defs
+public import ZetaZeros.Hilbert.Dimensions
+public import ZetaZeros.Hilbert.FIdentity
+public import ZetaZeros.Hilbert.InnerReal
+public import ZetaZeros.Hilbert.InnerRealL2
+public import ZetaZeros.Hilbert.Integrals
+public import ZetaZeros.Hilbert.L2
+public import ZetaZeros.Hilbert.Subspaces
+public import ZetaZeros.Hilbert.Symmetry
+public import ZetaZeros.Hilbert.SymmetryL2
+public import ZetaZeros.Main
+public import ZetaZeros.Meta.Attr
+public import ZetaZeros.Numeric.MontgomeryTaylor
+public import ZetaZeros.Zeta.Asymptotics
+public import ZetaZeros.Zeta.Basic
+public import ZetaZeros.Zeta.Cutoff
+public import ZetaZeros.Zeta.Defs
+public import ZetaZeros.Zeta.Finite
+public import ZetaZeros.Zeta.Kernel
+public import ZetaZeros.Zeta.Mass
+public import ZetaZeros.Zeta.OrderConj
+public import ZetaZeros.Zeta.Proportion
+public import ZetaZeros.Zeta.Transfer

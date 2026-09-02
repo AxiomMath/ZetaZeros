@@ -1,0 +1,18 @@
+{
+    "challenge_module": "Challenge.Basic",
+    "solution_module": "Solution.Basic",
+    "theorem_names": [
+        "ZetaZeros.Challenge.prop_simple_real_lower",
+        "ZetaZeros.Challenge.prop_distinct_lower",
+        "ZetaZeros.Challenge.thm_simple",
+        "ZetaZeros.Challenge.thm_distinct",
+        "ZetaZeros.Challenge.thm_simple_numeric",
+        "ZetaZeros.Challenge.thm_distinct_numeric"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ],
+    "enable_nanoda": true
+}

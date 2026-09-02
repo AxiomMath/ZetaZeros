@@ -1,0 +1,27 @@
+name = "ZetaZeros"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["ZetaZeros"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.34.0-rc2"
+
+[[lean_lib]]
+name = "ZetaZeros"
+
+# The comparator pair. Deliberately NOT in defaultTargets: `Challenge` carries a
+# permanent `sorry` (its statements are the artifact), and `lake lint` derives its
+# scope from the default targets. The comparator builds both modules itself.
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"
