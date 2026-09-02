@@ -15,7 +15,7 @@ public import Mathlib.MeasureTheory.Function.LpSeminorm.Basic
 /-! # Simple zeros of the Riemann zeta function on the critical line
 
 More than `67.25%` of the non-trivial zeros of the Riemann zeta function are simple and lie on
-the critical line, and more than `83.62%` of them are distinct, given three classical analytic
+the critical line, and more than `83.62%` of them are distinct, given two classical analytic
 inputs.
 
 Y. Lamzouri, *A new proof that more than `2/3` of the zeros of the Riemann zeta function are
@@ -93,15 +93,13 @@ structure IsConjInvariant (Z : Finset ℂ) (m : ℂ → ℕ) : Prop where
 noncomputable def simpleRealPart (Z : Finset ℂ) (m : ℂ → ℕ) : Finset ℂ :=
   Z.filter fun x => x.im = 0 ∧ m x = 1
 
-/-! ## The three external inputs, as hypotheses
+/-! ## The two external inputs, as hypotheses
 
 * **Riemann--von Mangoldt**: E. C. Titchmarsh, *The theory of the Riemann zeta-function*,
   2nd ed., Oxford University Press, 1986, **Theorem 9.4**.
 * **Unconditional pair correlation**: S. A. C. Baluyot, D. A. Goldston, A. I. Suriajaya and
   C. L. Turnage-Butterbaugh, *An unconditional Montgomery theorem for pair correlation of zeros
   of the Riemann zeta-function*, Acta Arith. **214** (2024), 357--376, **Lemma 5**.
-* **Montgomery--Taylor**: H. L. Montgomery, *Distribution of the zeros of the Riemann zeta
-  function*, Proc. ICM (Vancouver, 1974), Vol. 1, 379--381.
 -/
 
 /-- The weight `4 / (4 - z²)` carried by the unconditional pair-correlation formula. -/
@@ -127,18 +125,6 @@ def IsPairTestFunction (f : ℝ → ℝ) : Prop :=
   (∀ x, f (-x) = f x) ∧ MeasureTheory.Integrable f ∧ (∀ x, 1 < |x| → f x = 0) ∧
     ∃ C : ℝ, ∀ x, |f x - f 0| ≤ C * |x|
 
-/-- The extremal test function `cos(√2 x) / (√2 sin(1/√2))` on `[-1/2, 1/2]`, zero elsewhere. -/
-noncomputable def extremalTest (x : ℝ) : ℝ :=
-  if |x| ≤ 1 / 2 then Real.cos (Real.sqrt 2 * x) / (Real.sqrt 2 * Real.sin (1 / Real.sqrt 2))
-  else 0
-
-/-- The self-convolution of the extremal test function. -/
-noncomputable def extremalSelfConv (x : ℝ) : ℝ := ∫ t : ℝ, extremalTest t * extremalTest (x - t)
-
-/-- The Montgomery--Taylor constant `1/2 + (1/√2) cot(1/√2) = 1.3274992963…`. -/
-noncomputable def montgomeryTaylorConst : ℝ :=
-  1 / 2 + (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2)
-
 /-- **The Riemann--von Mangoldt formula.** The number of non-trivial zeros up to height `T`,
 counted with multiplicity, is asymptotic to `(T / 2π) log T`. -/
 def RiemannVonMangoldt : Prop :=
@@ -153,11 +139,6 @@ def PairCorrelation : Prop :=
     ∃ C : ℝ, 0 < C ∧ ∃ T₀ : ℝ, ∀ T ≥ T₀,
       ‖pairCorrelationSum f T / ((T / (2 * Real.pi) * Real.log T : ℝ) : ℂ) -
           ((pairMainTerm f : ℝ) : ℂ)‖ ≤ C / Real.sqrt (Real.log T)
-
-/-- **The Montgomery--Taylor computation.** The pair-correlation functional evaluated at the
-self-convolution of the extremal test function is the Montgomery--Taylor constant. -/
-def MontgomeryTaylor : Prop :=
-  extremalSelfConv 0 + 2 * ∫ α in (0:ℝ)..1, α * extremalSelfConv α = montgomeryTaylorConst
 
 end ZetaZeros
 
@@ -185,8 +166,7 @@ theorem prop_distinct_lower {lam : ℝ} {eta : ℝ → ℝ} {Z : Finset ℂ} {m 
 /-- **`thm_simple`.** Beyond a height depending on `ε`, the proportion of non-trivial zeros
 that are simple and lie on the critical line exceeds
 `3/2 - (1/√2) cot(1/√2) - ε = 0.6725007037… - ε`. -/
-theorem thm_simple (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem thm_simple (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) (ε : ℝ) (hε : 0 < ε) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀,
       3 / 2 - (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2) - ε <
         (simpleOnLineCount T : ℝ) / (zeroCount T : ℝ) :=
@@ -194,8 +174,7 @@ theorem thm_simple (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
 
 /-- **`thm_distinct`.** Beyond a height depending on `ε`, the proportion of non-trivial zeros
 that are distinct exceeds `5/4 - (1/(2√2)) cot(1/√2) - ε = 0.8362503518… - ε`. -/
-theorem thm_distinct (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem thm_distinct (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) (ε : ℝ) (hε : 0 < ε) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀,
       5 / 4 - (1 / (2 * Real.sqrt 2)) * Real.cot (1 / Real.sqrt 2) - ε <
         (distinctZeroCount T : ℝ) / (zeroCount T : ℝ) :=
@@ -203,15 +182,13 @@ theorem thm_distinct (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
 
 /-- **`thm_simple_numeric`.** Beyond some height, more than `67.25%` of the non-trivial zeros of
 the Riemann zeta function are simple and lie on the critical line. -/
-theorem thm_simple_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) :
+theorem thm_simple_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀, 0.6725 < (simpleOnLineCount T : ℝ) / (zeroCount T : ℝ) :=
   sorry
 
 /-- **`thm_distinct_numeric`.** Beyond some height, more than `83.625%` of the non-trivial zeros
 of the Riemann zeta function are distinct. -/
-theorem thm_distinct_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) :
+theorem thm_distinct_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀, 0.83625 < (distinctZeroCount T : ℝ) / (zeroCount T : ℝ) :=
   sorry
 

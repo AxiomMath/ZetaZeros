@@ -15,6 +15,12 @@ public import ZetaZeros.Hilbert.Symmetry
 public import ZetaZeros.Hilbert.SymmetryL2
 public import ZetaZeros.Main
 public import ZetaZeros.Meta.Attr
+public import ZetaZeros.MontgomeryTaylor.AffineKernel
+public import ZetaZeros.MontgomeryTaylor.Basic
+public import ZetaZeros.MontgomeryTaylor.Evaluation
+public import ZetaZeros.MontgomeryTaylor.Integrability
+public import ZetaZeros.MontgomeryTaylor.Reduction
+public import ZetaZeros.MontgomeryTaylor.TestFunction
 public import ZetaZeros.Numeric.MontgomeryTaylor
 public import ZetaZeros.Zeta.Asymptotics
 public import ZetaZeros.Zeta.Basic

@@ -8,6 +8,7 @@ module
 public import Mathlib.Analysis.Fourier.Convolution
 public import Mathlib.Analysis.Fourier.FourierTransformDeriv
 public import ZetaZeros.Hilbert.AlphaExpansion
+public import ZetaZeros.MontgomeryTaylor.Basic
 public import ZetaZeros.Zeta.Asymptotics
 public import ZetaZeros.Defs
 public import ZetaZeros.Zeta.Cutoff
@@ -212,15 +213,6 @@ lemma integrable_cutoffTestSq {delta : ℝ} (hd : 0 < delta) (hd4 : delta < 1 / 
   have hdiv : Integrable (fun x => psi x ^ 2 * extremalTest x / cutoffNormaliser psi) :=
     (integrable_cutoffWeight hpsi).div_const _
   exact hdiv.congr (Filter.Eventually.of_forall fun x => (cutoffTestSq_eq hd hd4 hpsi x).symm)
-
-/-- The extremal density is even. -/
-private lemma extremalTest_even (x : ℝ) : extremalTest (-x) = extremalTest x := by
-  unfold extremalTest
-  rw [abs_neg]
-  by_cases hx : |x| ≤ 1 / 2
-  · rw [ite_eq_left hx, ite_eq_left hx]
-    rw [mul_neg, Real.cos_neg]
-  · rw [ite_eq_right hx, ite_eq_right hx]
 
 /-- The normalized cutoff supplied by Section 6 is an admissible Hilbert-space test function. -/
 theorem cutoffTest_isAdmissible {delta : ℝ} (hd : 0 < delta) (hd4 : delta < 1 / 4)
@@ -954,16 +946,16 @@ private lemma cutoffPairMainTerm_tendsto :
 /-- **The cutoff constants converge to the Montgomery--Taylor constant**
 (`lem_C_delta_limit`). -/
 @[zz_tag "lem_C_delta_limit"]
-theorem exists_cutoff_pairMainTerm_close (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem exists_cutoff_pairMainTerm_close (ε : ℝ) (hε : 0 < ε) :
     ∃ delta : ℝ, ∃ psi : ℝ → ℝ,
       0 < delta ∧ delta < 1 / 4 ∧ IsCutoff delta psi ∧
         |pairMainTerm (cutoffSelfConv psi) - montgomeryTaylorConst| < ε := by
-  have hMT' : pairMainTerm extremalSelfConv = montgomeryTaylorConst := by
+  have hMT : pairMainTerm extremalSelfConv = montgomeryTaylorConst := by
     unfold pairMainTerm
-    exact hMT
+    exact montgomeryTaylor
   have hlim : Filter.Tendsto (fun n => pairMainTerm (cutoffSelfConv (cutoffFamily n)))
       Filter.atTop (nhds montgomeryTaylorConst) := by
-    rw [← hMT']
+    rw [← hMT]
     exact cutoffPairMainTerm_tendsto
   obtain ⟨N, hN⟩ := (Metric.tendsto_atTop.1 hlim) ε hε
   refine ⟨cutoffDelta N, cutoffFamily N, cutoffDelta_pos N,
@@ -974,16 +966,14 @@ theorem exists_cutoff_pairMainTerm_close (hMT : MontgomeryTaylor) (ε : ℝ) (h�
 pair-correlation constant is arbitrarily close to the Montgomery--Taylor constant, and the
 normalized unweighted kernel sum converges to that constant. -/
 @[zz_tag "lem_kernel_construction"]
-theorem kernelConstruction
-    (hPC : PairCorrelation) (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem kernelConstruction (hPC : PairCorrelation) (ε : ℝ) (hε : 0 < ε) :
     ∃ eta C,
       IsAdmissible (1 / 2) eta ∧
       |C - montgomeryTaylorConst| < ε ∧
       Filter.Tendsto
         (fun T => (unweightedKernelSum eta T).re / zeroScale T)
         Filter.atTop (nhds C) := by
-  obtain ⟨delta, psi, hd, hd4, hpsi, hclose⟩ :=
-    exists_cutoff_pairMainTerm_close hMT ε hε
+  obtain ⟨delta, psi, hd, hd4, hpsi, hclose⟩ := exists_cutoff_pairMainTerm_close ε hε
   refine ⟨cutoffTest psi, pairMainTerm (cutoffSelfConv psi),
     cutoffTest_isAdmissible hd hd4 hpsi, hclose, ?_⟩
   have hreal : Filter.Tendsto

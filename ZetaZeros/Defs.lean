@@ -12,7 +12,7 @@ public import ZetaZeros.Meta.Attr
 /-! # The vocabulary of the main results
 
 Every notion appearing in the statements of the headline theorems: the zero counts, the
-Hilbert-space objects of the key proposition, the pair-correlation apparatus, and the three
+Hilbert-space objects of the key proposition, the pair-correlation apparatus, and the two
 classical analytic inputs.
 
 These are kept in one module, in the order `Challenge/Basic.lean` repeats them, and should stay
@@ -121,26 +121,11 @@ def IsPairTestFunction (f : ℝ → ℝ) : Prop :=
   (∀ x, f (-x) = f x) ∧ MeasureTheory.Integrable f ∧ (∀ x, 1 < |x| → f x = 0) ∧
     ∃ C : ℝ, ∀ x, |f x - f 0| ≤ C * |x|
 
-/-- The extremal test function `cos(√2 x) / (√2 sin(1/√2))` on `[-1/2, 1/2]`, zero elsewhere. -/
-@[zz_tag "def_f0"]
-noncomputable def extremalTest (x : ℝ) : ℝ :=
-  if |x| ≤ 1 / 2 then Real.cos (Real.sqrt 2 * x) / (Real.sqrt 2 * Real.sin (1 / Real.sqrt 2))
-  else 0
+/-! ### The two external inputs
 
-/-- The self-convolution of the extremal test function. -/
-@[zz_tag "def_Q0"]
-noncomputable def extremalSelfConv (x : ℝ) : ℝ := ∫ t : ℝ, extremalTest t * extremalTest (x - t)
-
-/-- The Montgomery–Taylor constant `1/2 + (1/√2) cot(1/√2) = 1.3274992963…`. -/
-@[zz_tag "def_C_MT"]
-noncomputable def montgomeryTaylorConst : ℝ :=
-  1 / 2 + (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2)
-
-/-! ### The three external inputs
-
-The classical analytic results cited rather than proved here: the Riemann--von Mangoldt formula,
-the unconditional pair-correlation formula, and the Montgomery--Taylor computation. Each is a
-`Prop`, carried as a hypothesis, so every result depending on it names it in its own statement.
+The classical analytic results cited rather than proved here: the Riemann--von Mangoldt formula
+and the unconditional pair-correlation formula. Each is a `Prop`, carried as a hypothesis, so
+every result depending on it names it in its own statement.
 -/
 
 /-- **Riemann--von Mangoldt** (`lem_rvm`, external input). `N T ∼ (T / 2π) log T`. -/
@@ -160,13 +145,5 @@ def PairCorrelation : Prop :=
     ∃ C : ℝ, 0 < C ∧ ∃ T₀ : ℝ, ∀ T ≥ T₀,
       ‖pairCorrelationSum f T / ((T / (2 * Real.pi) * Real.log T : ℝ) : ℂ) -
           ((pairMainTerm f : ℝ) : ℂ)‖ ≤ C / Real.sqrt (Real.log T)
-
-/-- **The Montgomery--Taylor computation** (`lem_montgomery_taylor`, external input). The
-pair-correlation functional at the self-convolution of the extremal test function is the
-Montgomery--Taylor constant. See Montgomery, *Distribution of the zeros of the Riemann zeta
-function*, Proc. ICM (Vancouver, 1974), Vol. 1, 379--381. -/
-@[zz_tag "lem_montgomery_taylor"]
-def MontgomeryTaylor : Prop :=
-  extremalSelfConv 0 + 2 * ∫ α in (0:ℝ)..1, α * extremalSelfConv α = montgomeryTaylorConst
 
 end ZetaZeros
