@@ -30,13 +30,12 @@ private lemma nontrivialZeros_nonempty_of_zeroCount_pos {T : ℝ}
   simp at h
 
 @[zz_tag "thm_simple"]
-theorem simple_proportion_lower
-    (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem simple_proportion_lower (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
+    (ε : ℝ) (hε : 0 < ε) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀,
       3 / 2 - (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2) - ε <
         (simpleOnLineCount T : ℝ) / (zeroCount T : ℝ) := by
-  obtain ⟨eta, C, heta, hC, hsum⟩ := kernelConstruction hPC hMT (ε / 2) (by positivity)
+  obtain ⟨eta, C, heta, hC, hsum⟩ := kernelConstruction hPC (ε / 2) (by positivity)
   have hNscale := hRvM.tendsto
   have hscale : ∀ᶠ T : ℝ in atTop, zeroScale T ≠ 0 :=
     zeroScale_pos_eventually.mono fun _ h => ne_of_gt h
@@ -70,13 +69,12 @@ theorem simple_proportion_lower
   exact eventually_atTop.1 hfinal
 
 @[zz_tag "thm_distinct"]
-theorem distinct_proportion_lower
-    (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem distinct_proportion_lower (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
+    (ε : ℝ) (hε : 0 < ε) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀,
       5 / 4 - (1 / (2 * Real.sqrt 2)) * Real.cot (1 / Real.sqrt 2) - ε <
         (distinctZeroCount T : ℝ) / (zeroCount T : ℝ) := by
-  obtain ⟨eta, C, heta, hC, hsum⟩ := kernelConstruction hPC hMT (ε / 2) (by positivity)
+  obtain ⟨eta, C, heta, hC, hsum⟩ := kernelConstruction hPC (ε / 2) (by positivity)
   have hNscale := hRvM.tendsto
   have hscale : ∀ᶠ T : ℝ in atTop, zeroScale T ≠ 0 :=
     zeroScale_pos_eventually.mono fun _ h => ne_of_gt h
@@ -112,8 +110,7 @@ theorem distinct_proportion_lower
 /-- **`thm_simple_numeric`.** Beyond some height, more than `67.25%` of the non-trivial zeros of
 the Riemann zeta function are simple and lie on the critical line. -/
 @[zz_tag "thm_simple_numeric"]
-theorem simple_proportion_d4 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) :
+theorem simple_proportion_d4 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀, 0.6725 < (simpleOnLineCount T : ℝ) / (zeroCount T : ℝ) := by
   have hconst : (0.6725 : ℝ) <
       3 / 2 - (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2) := by
@@ -122,7 +119,7 @@ theorem simple_proportion_d4 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
         rw [montgomeryTaylorConst]
         ring]
     linarith [montgomeryTaylorConst_lt]
-  obtain ⟨T₀, hT₀⟩ := simple_proportion_lower hRvM hPC hMT
+  obtain ⟨T₀, hT₀⟩ := simple_proportion_lower hRvM hPC
     (3 / 2 - (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2) - 0.6725)
     (sub_pos.mpr hconst)
   refine ⟨T₀, fun T hT => ?_⟩
@@ -132,8 +129,7 @@ theorem simple_proportion_d4 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
 /-- **`thm_distinct_numeric`.** Beyond some height, more than `83.625%` of the non-trivial zeros
 of the Riemann zeta function are distinct. -/
 @[zz_tag "thm_distinct_numeric"]
-theorem distinct_proportion_d5 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) :
+theorem distinct_proportion_d5 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀, 0.83625 < (distinctZeroCount T : ℝ) / (zeroCount T : ℝ) := by
   have hconst : (0.83625 : ℝ) <
       5 / 4 - (1 / (2 * Real.sqrt 2)) * Real.cot (1 / Real.sqrt 2) := by
@@ -142,7 +138,7 @@ theorem distinct_proportion_d5 (hRvM : RiemannVonMangoldt) (hPC : PairCorrelatio
         rw [montgomeryTaylorConst]
         ring]
     linarith [montgomeryTaylorConst_lt]
-  obtain ⟨T₀, hT₀⟩ := distinct_proportion_lower hRvM hPC hMT
+  obtain ⟨T₀, hT₀⟩ := distinct_proportion_lower hRvM hPC
     (5 / 4 - (1 / (2 * Real.sqrt 2)) * Real.cot (1 / Real.sqrt 2) - 0.83625)
     (sub_pos.mpr hconst)
   refine ⟨T₀, fun T hT => ?_⟩

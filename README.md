@@ -7,8 +7,8 @@ This is a Lean formalization of Lamzouri's new proof that more than `2/3` of the
 ## Main Results
 
 * A Hilbert-space lower bound on the number of real points of multiplicity one in a finite conjugation-invariant multiset, and on the number of its distinct points.
-* Beyond some height, more than `67.25%` of the non-trivial zeros are simple and lie on the critical line, assuming the Riemann–von Mangoldt formula, the Baluyot–Goldston–Suriajaya–Turnage-Butterbaugh pair-correlation formula and the Montgomery–Taylor computation.
-* Beyond some height, more than `83.625%` of the non-trivial zeros are distinct, under those same three assumptions.
+* Beyond some height, more than `67.25%` of the non-trivial zeros are simple and lie on the critical line, assuming the Riemann–von Mangoldt formula and the Baluyot–Goldston–Suriajaya–Turnage-Butterbaugh pair-correlation formula.
+* Beyond some height, more than `83.625%` of the non-trivial zeros are distinct, under those same two assumptions.
 
 See [§Formal Challenge](#formal-challenge) for a formal certificate.
 

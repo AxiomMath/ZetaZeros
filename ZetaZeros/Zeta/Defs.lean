@@ -44,6 +44,17 @@ noncomputable def rescaledMult (T : ℝ) (w : ℂ) : ℕ :=
   zeroMultiplicity (w / (Complex.I * ((Real.log T / (2 * Real.pi) : ℝ) : ℂ)) + 1 / 2)
 
 /-- The extremal test function `cos(√2 x) / (√2 sin(1/√2))` on `[-1/2, 1/2]`, zero elsewhere. -/
+@[zz_tag "def_f0"]
+noncomputable def extremalTest (x : ℝ) : ℝ :=
+  if |x| ≤ 1 / 2 then Real.cos (Real.sqrt 2 * x) / (Real.sqrt 2 * Real.sin (1 / Real.sqrt 2))
+  else 0
+
+/-- The self-convolution of the extremal test function. -/
+@[zz_tag "def_Q0"]
+noncomputable def extremalSelfConv (x : ℝ) : ℝ := ∫ t : ℝ, extremalTest t * extremalTest (x - t)
+
+/-- `psi` is a `delta`-cutoff: smooth, even, supported in `(-1/2, 1/2)`, valued in `[0, 1]`, and
+identically `1` on `|x| ≤ 1/2 - delta`. -/
 @[zz_tag "def_cutoff"]
 structure IsCutoff (delta : ℝ) (psi : ℝ → ℝ) : Prop where
   /-- `psi` is smooth. -/

@@ -36,34 +36,30 @@ theorem prop_distinct_lower {lam : ℝ} {eta : ℝ → ℝ} {Z : Finset ℂ} {m 
 /-- **`thm_simple`.** Beyond a height depending on `ε`, the proportion of non-trivial zeros
 that are simple and lie on the critical line exceeds
 `3/2 - (1/√2) cot(1/√2) - ε = 0.6725007037… - ε`. -/
-theorem thm_simple (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem thm_simple (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) (ε : ℝ) (hε : 0 < ε) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀,
       3 / 2 - (1 / Real.sqrt 2) * Real.cot (1 / Real.sqrt 2) - ε <
         (simpleOnLineCount T : ℝ) / (zeroCount T : ℝ) :=
-  simple_proportion_lower hRvM hPC hMT ε hε
+  simple_proportion_lower hRvM hPC ε hε
 
 /-- **`thm_distinct`.** Beyond a height depending on `ε`, the proportion of non-trivial zeros
 that are distinct exceeds `5/4 - (1/(2√2)) cot(1/√2) - ε = 0.8362503518… - ε`. -/
-theorem thm_distinct (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) (ε : ℝ) (hε : 0 < ε) :
+theorem thm_distinct (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) (ε : ℝ) (hε : 0 < ε) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀,
       5 / 4 - (1 / (2 * Real.sqrt 2)) * Real.cot (1 / Real.sqrt 2) - ε <
         (distinctZeroCount T : ℝ) / (zeroCount T : ℝ) :=
-  distinct_proportion_lower hRvM hPC hMT ε hε
+  distinct_proportion_lower hRvM hPC ε hε
 
 /-- **`thm_simple_numeric`.** Beyond some height, more than `67.25%` of the non-trivial zeros of
 the Riemann zeta function are simple and lie on the critical line. -/
-theorem thm_simple_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) :
+theorem thm_simple_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀, 0.6725 < (simpleOnLineCount T : ℝ) / (zeroCount T : ℝ) :=
-  simple_proportion_d4 hRvM hPC hMT
+  simple_proportion_d4 hRvM hPC
 
 /-- **`thm_distinct_numeric`.** Beyond some height, more than `83.625%` of the non-trivial zeros
 of the Riemann zeta function are distinct. -/
-theorem thm_distinct_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation)
-    (hMT : MontgomeryTaylor) :
+theorem thm_distinct_numeric (hRvM : RiemannVonMangoldt) (hPC : PairCorrelation) :
     ∃ T₀ : ℝ, ∀ T ≥ T₀, 0.83625 < (distinctZeroCount T : ℝ) / (zeroCount T : ℝ) :=
-  distinct_proportion_d5 hRvM hPC hMT
+  distinct_proportion_d5 hRvM hPC
 
 end ZetaZeros.Challenge
